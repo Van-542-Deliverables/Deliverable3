@@ -4,8 +4,81 @@ output: html_document
 date: "2023-03-04"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+rm(list = ls())
+library(rio)
+
+Glink="https://github.com/Van-542-Deliverables/Deliverable3/raw/main/"
+Flink="socialnetwork.csv"
+SN=read.csv(paste0(Glink,Flink))
+
+adjacency=import(Flink)
+```
+
+```{r}
+row.names(adjacency)=adjacency$namee
+adjacency$name=NULL
+```
+```{r}
+adjacency_Mx=as.matrix(adjacency) 
+```
+```{r}
+#install.packages("igraph")
+library(igraph)
+
+SeattleSN=graph.adjacency(adjacency_Mx,mode="undirected",weighted=NULL)
+```
+```{r}
+plot.igraph(SeattleSN, vertex.color='green',edge.color='yellow')
+```
+```{r}
+is_connected(SeattleSN)
+```
+```{r}
+graph.density(SeattleSN)
+```
+```{r}
+diameter(SeattleSN)
+```
+```{r}
+farthest_vertices(SeattleSN)
+```
+```{r}
+average.path.length(SeattleSN)
+```
+```{r}
+transitivity(SeattleSN)
+```
+```{r}
+assortativity_degree(SeattleSN)
+```
+```{r}
+rounding=3
+degr=round(degree(SeattleSN,normalized=T),rounding)
+close=round(closeness(SeattleSN,normalized=T),rounding)
+betw=round(betweenness(SeattleSN,normalized=T),rounding)
+eigv=round(eigen_centrality (SeattleSN,scale=F)$vector,rounding)
+
+DFCentrality=as.data.frame(cbind(close,betw,eigv),stringsAsFactors = F)
+names(DFCentrality)=c('Closeness','Betweenness','Eigenvector')
+```
+```{r}
+DFCentrality$person=row.names(DFCentrality)
+row.names(DFCentrality)=NULL
+head(DFCentrality)
+```
+```{r}
+library(ggplot2)
+ggplot(DFCentrality, aes(x=Betweenness, y=Closeness)) + 
+    theme_classic() +
+    geom_text(aes(label=person,color=Eigenvector)) +
+    scale_colour_gradient(low = "black", high = "red")
+```
+```{r}
+vertex_connectivity(SeattleSN)
+```
+```{r}
+write_graph(SeattleSN, "SeattleSNR.graphml", "graphml")
 ```
 
 ## R Markdown
