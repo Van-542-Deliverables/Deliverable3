@@ -80,4 +80,3 @@ vertex_connectivity(SeattleSN)
 ```{r}
 write_graph(SeattleSN, "SeattleSNR.graphml", "graphml")
 ```
-
