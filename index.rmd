@@ -32,27 +32,40 @@ SeattleSN=graph.adjacency(adjacency_Mx,mode="undirected",weighted=NULL)
 plot.igraph(SeattleSN, vertex.color='green',edge.color='yellow')
 ```
 ```{r}
+#This is looking to see if the network I am analyzing is connected (meaning every node or person can reach any other node or person). It turns out that the network is connected! 
+#Since the network is connected, I am not going to look at the Giant Component or a way to break the network by removing one bridge since this won't be possible
 is_connected(SeattleSN)
 ```
 ```{r}
+#This graph has relatively low density since the resulting number is approximately .38. The closer the number to 1, the more of a complete network there is. In other words, there is a link between every pair of nodes or person.
 graph.density(SeattleSN)
 ```
 ```{r}
+#Since we are looking at a connected network, I am checking to see what the diameter is. The diameter looks to see what the maximum number of geodesic (or shortest paths between two connected people) is in a network. 3 isn't too bad, but it could be better. This means that the shortest path between two connected vertices is 3 edges.
 diameter(SeattleSN)
 ```
 ```{r}
+#This is just looking to see who the pair of nodes or persons are who represent the diameter. Our results show the pair is mattmcilwain and nhuntwalker.
 farthest_vertices(SeattleSN)
 ```
 ```{r}
+#This is looking at the shortest path on average among the nodes or people in the network. So on average, each person has to take 1.6 steps to reach the next person or node in the network.  
 average.path.length(SeattleSN)
 ```
 ```{r}
+#Transitivity looks at the probability that two vertices with a common vertex are also connected. Thinking of this in the shape of an isosceles triangle, the point on top that shares the two equal length but longest sides on the triangle is the common vertex. Transitivity is looking to the probability of the two points connected to the common vertex are also connected. For this network, the probability is just about 55%.
 transitivity(SeattleSN)
 ```
 ```{r}
+#Assortativity measures to see if nodes or people are connecting to other nodes similar in degree. This network falls in between diassortativity (-1) and no assortitivity (0) since it is negative but closer to 0 than -1. 1 would mean there is a higher level of assortativity.
 assortativity_degree(SeattleSN)
 ```
 ```{r}
+#Closeness tells us how close a vertex is to every other vertex
+#Betweenness tells us how critical a vertex is to connect vertex that are not already directle connected
+#Eigenvector of a vertex tells us how well connected a vertex is
+
+#toddbishop and DaveParkerSEA have the highest of all three in this network
 rounding=3
 degr=round(degree(SeattleSN,normalized=T),rounding)
 close=round(closeness(SeattleSN,normalized=T),rounding)
