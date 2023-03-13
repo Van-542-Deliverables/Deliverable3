@@ -62,10 +62,10 @@ assortativity_degree(SeattleSN)
 ```
 ```{r}
 #Closeness tells us how close a vertex is to every other vertex
-#Betweenness tells us how critical a vertex is to connect vertex that are not already directle connected
+#Betweenness tells us how critical a vertex is to connect vertex that are not already directly connected
 #Eigenvector of a vertex tells us how well connected a vertex is
 
-#toddbishop and DaveParkerSEA have the highest of all three in this network
+#toddbishop and DaveParkerSEA have the highest of all three in this network. Looking at the dataset, toddbishop is directly connected to everyone but 5 people in the network. DaveParkerSEA is directly connected to everyone but 10. This explains both the high closeness and eigenvector results for each of these people. Since these two are connected to so many other people in the network (toddbishop especially), it makes sense that they are critical to connected various vertex within the network.
 rounding=3
 degr=round(degree(SeattleSN,normalized=T),rounding)
 close=round(closeness(SeattleSN,normalized=T),rounding)
